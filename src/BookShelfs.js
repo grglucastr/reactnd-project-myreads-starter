@@ -27,9 +27,12 @@ class BookShelfs extends Component {
                   (
                     <div className="bookshelf" key={shelf.slug}>
                       <h2 className="bookshelf-title">{shelf.name}</h2>
-                      <BooksList 
-                        shelf={shelf} books={books} 
-                        OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf) } />
+                      <div className="bookshelf-books">
+                        <BooksList 
+                          shelf={shelf} 
+                          books={books.filter(b => b.shelf === shelf.slug)} 
+                          OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf) } />
+                      </div>
                     </div>
                   ): ('')
                 ))

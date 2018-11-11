@@ -11,23 +11,17 @@ class BooksList extends Component {
   render(){
     const {shelf, books} = this.props;   
     return(
-      <div className="bookshelf-books">
-        <ol className="books-grid">
-          {
-            books.map((book, booksIndex) => (
-              (book.shelf === shelf.slug ) ?
-              (
-                <li key={booksIndex}> 
-                  <Book 
-                    OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf)} 
-                    book={book} /> 
-                </li> 
-              ) :
-              ('')
-            ))
-          }
-        </ol>
-      </div>
+      <ol className="books-grid">
+        {
+          books.map((book, booksIndex) => (
+            <li key={booksIndex}> 
+              <Book 
+                OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf)} 
+                book={book} /> 
+            </li> 
+          ))
+        }
+      </ol>
     )
   }
 }
