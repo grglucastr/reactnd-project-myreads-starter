@@ -13,8 +13,8 @@ class Search extends Component {
     books: this.props.books
   }
 
-  changeShelf(book, newShef){
-    console.log("send me to puta que pariu - Ciro 2018");
+  changeShelf(book, newShelf){
+    this.props.OnChangeShelf(book, newShelf);
   }
 
   onSearch(event){
