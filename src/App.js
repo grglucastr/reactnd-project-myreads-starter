@@ -22,23 +22,37 @@ class BooksApp extends React.Component {
         {title: 'The Adventures of Tom Sawyer', authors: ['Mark Twain'], shelf:'read', image:'http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api'},
       ],
       shelfs: [
-        {name: 'Books', slug:'none'},
+        {name: 'All the Books', slug:'none'},
         {name: 'Currently Reading', slug:'currentlyReading'},
         {name: 'Want to Read', slug:'wantToRead'},
         {name: 'Read', slug:'read'},
       ]
     }
   }
-
+  
+  changeShelf = (book, newShelf) => {
+    
+    this.setState(currentState => ({
+      books: currentState.books.map((b)=>{
+        if(b.title === book.title){
+          b.shelf = newShelf
+        }
+        return b;
+      })
+    }));
+     
+  }
 
   render() {
-    
     return (
       <div className="app">
         <Route path='/search' component={ Search }  />
 
         <Route exact path='/' render={() => (
-          <BookShelfs shelfs={this.state.shelfs} books={this.state.books} />
+          <BookShelfs 
+              shelfs={this.state.shelfs} 
+              books={this.state.books} 
+              OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf)}/>
         )} />
       </div>
     )
