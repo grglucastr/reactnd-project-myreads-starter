@@ -9,12 +9,12 @@ class BooksList extends Component {
   }
 
   render(){
-    const {shelf, books} = this.props;   
+    const {books} = this.props;   
     return(
       <ol className="books-grid">
         {
-          books.map((book, booksIndex) => (
-            <li key={booksIndex}> 
+          books.map((book) => (
+            <li key={book.id}> 
               <Book 
                 OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf)} 
                 book={book} /> 
@@ -28,5 +28,7 @@ class BooksList extends Component {
 
 export default BooksList;
 BooksList.propTypes = {
-  books: PropTypes.array.isRequired
+  shelf: PropTypes.object,
+  books: PropTypes.array.isRequired,
+  OnChangeShelf: PropTypes.func.isRequired
 }

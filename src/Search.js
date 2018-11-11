@@ -51,13 +51,11 @@ class Search extends Component {
             </div>
           </div>
           <div className="search-books-results">
-            <ol className="books-grid"></ol>
+            <BooksList 
+              books={books} 
+              OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf) }  />
           </div>
         </div>
-
-        <BooksList 
-          books={books} 
-          OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf) }  />
 
         <Route exact path='/' Component={App}/>
       </div>
@@ -66,3 +64,8 @@ class Search extends Component {
 }
 
 export default Search;
+
+Search.propTypes = {
+  books: PropTypes.array.isRequired,  
+  OnChangeShelf: PropTypes.func.isRequired
+}
