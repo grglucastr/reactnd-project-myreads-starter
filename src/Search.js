@@ -6,13 +6,22 @@ import App from './App';
 import {Link, Route} from 'react-router-dom';
 import BooksList from './BooksList';
 
+import * as BooksAPI from './BooksAPI'
+
 class Search extends Component {
 
   state = {
     searchTerm: '',
     books: this.props.books
   }
-
+  
+  componentDidMount(){
+    BooksAPI.getAll().then((books) => {
+      console.log('books', books);
+      this.setState({books});
+    });    
+  }
+  
   changeShelf(book, newShelf){
     this.props.OnChangeShelf(book, newShelf);
   }

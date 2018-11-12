@@ -6,6 +6,7 @@ class Book extends Component{
   changeShelf = (event) => {
     const shelf = event.target.value;
     const book = this.props.book;
+    this.props.book.shelf = shelf
     this.props.OnChangeShelf(book, shelf);
   }
 
