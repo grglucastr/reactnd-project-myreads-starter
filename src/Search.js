@@ -12,12 +12,12 @@ class Search extends Component {
 
   state = {
     searchTerm: '',
-    books: this.props.books
+    books: [],
+    booksFiltered: []
   }
   
-  componentDidMount(){
+  componentDidMount(){ 
     BooksAPI.getAll().then((books) => {
-      console.log('books', books);
       this.setState({books});
     });    
   }
@@ -30,18 +30,22 @@ class Search extends Component {
     const searchTerm = event.target.value.toLowerCase();
     this.setState({searchTerm});
 
-    if(searchTerm.length > 0){
-      this.setState((currentState) => ({
-        books: currentState.books.filter(b => b.title.toLowerCase().indexOf(searchTerm) !== -1)
-      }));
-    }else{
-      this.setState({books: this.props.books});
+    if(searchTerm === ""){
+      this.setState({booksFiltered: []});
+      return;
     }
+
+    const books = this.state.books.filter(b => {
+      return (b.title.toLowerCase().indexOf(searchTerm) !== -1) ||
+                (b.authors.join("").toLowerCase().indexOf(searchTerm) !== -1)
+    });
+
+    this.setState({booksFiltered: books});
   }
 
   render(){
 
-    const { books } = this.state;
+    const { booksFiltered } = this.state;
     
     return(
       <div>
@@ -61,7 +65,7 @@ class Search extends Component {
           </div>
           <div className="search-books-results">
             <BooksList 
-              books={books} 
+              books={booksFiltered} 
               OnChangeShelf={(sBook, sShelf) => this.changeShelf(sBook, sShelf) }  />
           </div>
         </div>
@@ -75,6 +79,5 @@ class Search extends Component {
 export default Search;
 
 Search.propTypes = {
-  books: PropTypes.array.isRequired,  
   OnChangeShelf: PropTypes.func.isRequired
 }
