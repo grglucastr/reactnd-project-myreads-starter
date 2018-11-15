@@ -4,7 +4,7 @@ import Book from './Book';
 
 class BooksList extends Component {
   
-  changeShelf = (book, newShelf) => {      
+  changeShelf = (book, newShelf) => {
     this.props.OnChangeShelf(book, newShelf);
   }
 

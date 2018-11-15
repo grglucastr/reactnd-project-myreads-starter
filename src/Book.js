@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class Book extends Component{
 
-  changeShelf = (event) => {
+  changeShelf = (event) => {    
     const shelf = event.target.value;
     const book = this.props.book;
     this.props.book.shelf = shelf
@@ -25,7 +25,10 @@ class Book extends Component{
                                                `http://via.placeholder.com/128x193?text=No%20Cover`})` }}>
           </div>
           <div className="book-shelf-changer">
-            <select onChange={(event) => this.changeShelf(event)} value={book.shelf}>
+            <select 
+              onChange={(event) => this.changeShelf(event)} 
+              value={book.shelf ? book.shelf : 'none'}>
+
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -35,7 +38,7 @@ class Book extends Component{
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors"> {book.authors.join(", ")}</div>
+        <div className="book-authors"> { book.authors ? book.authors.join(", ") : ''}</div>
       </div>
     )
   }

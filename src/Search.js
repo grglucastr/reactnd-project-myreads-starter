@@ -17,9 +17,9 @@ class Search extends Component {
   }
   
   componentDidMount(){ 
-    BooksAPI.getAll().then((books) => {
-      this.setState({books});
-    });    
+   BooksAPI.getAll().then((books) => {
+    this.setState({books});
+   });
   }
   
   changeShelf(book, newShelf){
@@ -27,24 +27,27 @@ class Search extends Component {
   }
 
   onSearch(event){
-    const searchTerm = event.target.value.toLowerCase();
+    const searchTerm = event.target.value;
     this.setState({searchTerm});
-
-    if(searchTerm === ""){
-      this.setState({booksFiltered: []});
-      return;
-    }
-
-    const books = this.state.books.filter(b => {
-      return (b.title.toLowerCase().indexOf(searchTerm) !== -1) ||
-                (b.authors.join("").toLowerCase().indexOf(searchTerm) !== -1)
+  
+    this.setState({booksFiltered: []});
+    if(searchTerm === ""){ return; }
+  
+    BooksAPI.search(searchTerm).then((booksFiltered) => {
+      if(booksFiltered.error){
+        this.setState({booksFiltered: []}); 
+      }else{
+        const theBooksHere = booksFiltered.map(book => {
+          const obj = this.state.books.find(x => x.id === book.id);
+          if(obj)  return obj;
+          return book;
+        });
+        this.setState({booksFiltered: theBooksHere});
+      }
     });
-
-    this.setState({booksFiltered: books});
   }
 
   render(){
-
     const { booksFiltered } = this.state;
     
     return(
