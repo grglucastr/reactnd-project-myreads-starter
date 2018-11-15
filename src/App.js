@@ -17,7 +17,6 @@ class BooksApp extends React.Component {
     this.state = {
       books: [],
       shelfs: [
-        {name: 'All the Books', slug:'none'},
         {name: 'Currently Reading', slug:'currentlyReading'},
         {name: 'Want to Read', slug:'wantToRead'},
         {name: 'Read', slug:'read'},
@@ -32,15 +31,29 @@ class BooksApp extends React.Component {
   }
   
   changeShelf = (book, newShelf) => {
-    this.setState(currentState => ({
-      books: currentState.books.map((b)=>{
-        if(b.id === book.id){
-          b.shelf = newShelf
-          BooksAPI.update(b, newShelf);
-        }
-        return b;
-      })
+    
+    const bookFound =  this.state.books.find(x => x.id === book.id);
+
+    // Checking if I have the book already
+    if(bookFound){
+      this.setState(currentState => ({
+        books: currentState.books.map((b)=>{
+          if(b.id === book.id){
+            b.shelf = newShelf
+            BooksAPI.update(b, newShelf);
+          }
+          return b;
+        })
+      }));
+      return;
+    }
+    
+    // Adding a book to our showcase
+    this.setState((currentState) => ({
+      books: [...currentState.books, book]
     }));
+    BooksAPI.update(book, newShelf);
+    return;
   }
 
   render() {
